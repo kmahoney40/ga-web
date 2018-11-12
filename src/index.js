@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Button from 'react-bootstrap/lib/Button'
 import axios from 'axios';
+import tempUpdate from './components/temp-update';
 
   // fucntional component instead of calss, only a render() fn
   function Square(props){
@@ -13,20 +14,13 @@ import axios from 'axios';
     );
   }
    
-  function TA(props){
-    return(
-      <textarea rows="4" cols="50">{props.piPlates}</textarea>
-    );
-  }
-
   class Board extends React.Component {
     constructor(props){
       super(props);
       this.state = {
         squares: Array(9).fill(null),
         xIsNext: true,
-        piPlates: "piPlates",
-        count: 1,
+        tempUpdate: "Temps!",
       }
     }
     
@@ -39,12 +33,9 @@ import axios from 'axios';
       this.setState({
         squares: squares,
         xIsNext: !this.state.xIsNext,
-        piPlates: this.state.piPlates + this.state.count,
-        count: this.state.count + 1,
       });
     }
     renderSquare(i) {
-      // return <Square value={i}/>;
       return (
         <Square 
           value={this.state.squares[i]}
@@ -53,45 +44,32 @@ import axios from 'axios';
       );
     }
 
-    renderTA(){
-      return(
-        <TA value={this.state.piPlates}></TA>
-      );
-    }
-    aGet(self){
-      // this.setState({
-      //   piPlates: "fj as fas f as"//response.data
-      // });
+    getUpdate(self){
       axios.get('http://52.9.238.232/api/piplates')
         .then(function(response){
-        console.log(response.data); // ex.: { user: 'Your User'}
-        console.log(response.status); // ex.: 200
+        console.log(response.data);
+        console.log(response.status);
+        
         self.setState({
-          piPlates: response.data
+          tempUpdate: response.data
         });
-        // this.renderTA();
       });  
     }
   
     render() {
       const winner = calculateWinner(this.state.squares);
-      // var self = this;
       let status;
       if (winner) {
         status = "Winner: " + winner;
       } else {
         status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
       }
-      // let pp = this.state.piPlates;
-      // const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-      // this.setState({piPlates: this.state.piPlates + this.count,
-      //                count: this.state.count + 1});
+
       return (
         <div>
-          <Button variant="primary" onClick={() => this.aGet(this)}>PP</Button>
-          {/* {this.renderPiPlates()} */}
-          <textarea rows="4" cols="50" value={this.state.piPlates}></textarea>
-          {/* {this.state.piPlates} */}
+          <Button variant="primary" onClick={() => this.getUpdate(this)}>PP</Button>
+          <textarea rows="2" cols="150" value={this.state.tempUpdate}></textarea>
+          <tempUpdate>sfddsadasd</tempUpdate> />
           <div className="status">{status}</div>
           <div className="board-row">
             {this.renderSquare(0)}
