@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Button from 'react-bootstrap/lib/Button'
 import axios from 'axios';
-import tempUpdate from './components/temp-update';
+import TempUpdate from './components/temp-update';
 
   // fucntional component instead of calss, only a render() fn
   function Square(props){
@@ -67,9 +67,7 @@ import tempUpdate from './components/temp-update';
 
       return (
         <div>
-          <Button variant="primary" onClick={() => this.getUpdate(this)}>PP</Button>
-          <textarea rows="2" cols="150" value={this.state.tempUpdate}></textarea>
-          <tempUpdate>sfddsadasd</tempUpdate> />
+          <TempUpdate></TempUpdate>
           <div className="status">{status}</div>
           <div className="board-row">
             {this.renderSquare(0)}
