@@ -9,7 +9,7 @@ class TempUpdate extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      update: "Click to get last update.",
+      update: 'Click to get last update.'
     }
   }
   
@@ -29,7 +29,7 @@ class TempUpdate extends React.Component{
     return (
       <div>
         <Button variant="primary" onClick={() => this.getUpdate(this)}>PP</Button>
-        <textarea rows="2" cols="150" value={this.state.update}></textarea>
+        <textarea rows="2" cols="150" value={this.state.update} ></textarea>
       </div>
     );
   }

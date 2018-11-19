@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Button from 'react-bootstrap/lib/Button'
+// import Button from 'react-bootstrap/lib/Button'
 import axios from 'axios';
 import TempUpdate from './components/temp-update';
+import ButtonWithConfirmation from './components/button-with-confirmation';
+import Alert from 'react-bootstrap/lib/Alert'
 
   // fucntional component instead of calss, only a render() fn
   function Square(props){
@@ -26,6 +28,9 @@ import TempUpdate from './components/temp-update';
     
     handleClick(i) {
       const squares = this.state.squares.slice();
+
+      this.confirmAndSend();
+
       if (calculateWinner(squares) || squares[i]){
         return;
       }
@@ -56,6 +61,17 @@ import TempUpdate from './components/temp-update';
       });  
     }
   
+  
+    confirmAndSend(){
+      return(
+        <Alert bsStyle="warning" onDismiss={this.handleDismiss}>
+          <strong>Do you want to toggle the door?</strong>
+        </Alert>
+      );
+    }  
+    handleDismiss(){
+
+    }
     render() {
       const winner = calculateWinner(this.state.squares);
       let status;
@@ -68,6 +84,7 @@ import TempUpdate from './components/temp-update';
       return (
         <div>
           <TempUpdate></TempUpdate>
+          <ButtonWithConfirmation />
           <div className="status">{status}</div>
           <div className="board-row">
             {this.renderSquare(0)}
