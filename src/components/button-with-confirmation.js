@@ -14,6 +14,7 @@ class ButtonWithConfirmation extends React.Component{
     this.handleYes = this.handleYes.bind(this);
 
     this.state = {
+      showAlert: false,
       show: false,
       errMsg: ''
     };
@@ -24,21 +25,21 @@ class ButtonWithConfirmation extends React.Component{
   }
 
   handleYes(){
-    this.postDoor();
-    // this.setState({ show: false });
+    this.postDoor(this);
   }
 
-  postDoor(){
-    axios.post('http://52.9.238.232/api/do0r?cmd=true')
-    .then(function(response){
-      console.log(response.status);
-      if(response.status === 200){
-        this.setState({ show: false });
-      } else {
+  postDoor(self){
+    axios.post('http://52.9.238.232/api/door?cmd=true')
+      .then(function(response){
         console.log(response.status);
-        this.setState({ errMsg: response.status + ' ' + response.message })
+        if(response.status === 200){
+          self.setState({ show: false });
+        } else {
+          console.log(response.status);
+          self.setState({ errMsg: response.status + ' ' + response.message })
+        }
       }
-    })
+    )
     .catch(err => {console.log(err); this.setState({ errMsg: err.message + ': Try again?' })});
   }
 
@@ -52,7 +53,6 @@ class ButtonWithConfirmation extends React.Component{
         <Button bsstyle="primary" bssize="large" onClick={this.handleShow}>
           Toggel Door
         </Button>
-
         <Modal className="static-modal" show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Toggle Door?</Modal.Title>
